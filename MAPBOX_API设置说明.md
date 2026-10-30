@@ -18,25 +18,24 @@ Mapbox 模式不会读取 `data/building_mvt` 中的本地建筑 PBF。该目录
 
 Mapbox 官方 Token 说明：<https://docs.mapbox.com/help/getting-started/access-tokens/>
 
-## 2. 将 Token 填入配置文件
+## 2. 安全配置 GitHub Pages Token
 
-用文本编辑器打开：
+线上版本不要把 Token 直接写入仓库文件。请在 GitHub 仓库中设置 Actions Secret：
 
-`webmap_package/js/mapbox_config.js`
+1. 打开仓库 **Settings → Secrets and variables → Actions**。
+2. 新建或更新名为 `MAPBOX_PUBLIC_TOKEN` 的 Repository secret。
+3. 将以 `pk.` 开头的 Mapbox Public token 填入 Secret。
+4. 重新运行 GitHub Pages workflow，部署脚本会在发布时注入 Token。
 
-找到：
-
-```js
-accessToken: 'PASTE_YOUR_MAPBOX_PUBLIC_TOKEN_HERE',
-```
-
-替换为自己的公开 Token，例如：
+仓库中的 `js/mapbox_config.js` 必须保持为空配置：
 
 ```js
-accessToken: 'pk.xxxxxxxxxxxxxxxxxxxxxxxxx',
+accessToken: '',
 ```
 
-保存文件。不要修改引号、逗号或其他 JavaScript 结构。
+本地测试如需 Token，可创建被 Git 忽略的 `js/mapbox_config.private.js`，不要提交该文件。发布站点为：
+
+<https://cudlab.github.io/Collage-City-ShanghaiVote/>
 
 ## 3. 启动与确认
 
@@ -74,8 +73,9 @@ accessToken: 'pk.xxxxxxxxxxxxxxxxxxxxxxxxx',
 
 ## 5. 发布与安全
 
-- 浏览器端使用 Public token 是 Mapbox 的正常接入方式，但正式发布时建议在 Mapbox 后台设置允许访问的站点 URL。
+- 浏览器端使用 Public token 是 Mapbox 的正常接入方式；正式发布时请在 Mapbox 后台只允许 `https://cudlab.github.io/Collage-City-ShanghaiVote/*`。
 - 不要在项目中保存 Secret token。
+- 不要把 Public token 直接提交到 Git；线上发布只使用 `MAPBOX_PUBLIC_TOKEN` GitHub Actions Secret。
 - Mapbox 底图和 3D 建筑均需要互联网连接，并受 Mapbox 账户用量与计费规则约束。
 - 如果 Token 没有填写、格式不正确或 Mapbox GL JS CDN 无法加载，平台会自动使用原 Leaflet 地图；此时右下角不会显示 **Mapbox**。
 

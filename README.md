@@ -1,6 +1,6 @@
-# Shanghai Collage City Clusters
+# Collage City Shanghai Vote
 
-[Open the interactive platform](https://albushhy.github.io/Shanghai-Collage-City-Clusters/)
+[Open the interactive platform](https://cudlab.github.io/Collage-City-ShanghaiVote/)
 
 ## Participatory cluster validation
 
